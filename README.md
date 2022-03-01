@@ -19,6 +19,68 @@ drwxr-xr-x vscode/vscode        0 2022-03-01 10:23 lib/
 
 Some of the libraries are rather large, so the release tarball is likely to be 30MB or so.
 
+## Usage
+
+Those library archives have WASM blobs instead of object files and you can link them using a WASM compiler (e.g. `emscripten`). Example
+
+```protobuf
+syntax = "proto3";
+message Person {
+	string id = 1;
+	string name = 2;
+}
+```
+
+Then we can generate some C code:
+
+```
+$ protoc-c --c_out=. person.proto
+```
+
+which gives us `person.pb-c.c` and `person.pb-c.h`.
+
+Then let's create a simple `person.c`:
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include "person.pb-c.h"
+
+int main() {
+	Person *person = malloc(sizeof(Person));
+	person->id = "54321";
+	person->name = "Juergen";
+	printf("%s %s\n", person->id, person->name);
+	return 0;
+}
+```
+
+We can compile it with `gcc` and run it:
+
+```
+$ gcc person.pb-c.c person.c -lprotobuf-c  -o person
+$ ./person
+54321 Juergen
+```
+
+### Compiling a WASM
+
+Unpack the library release:
+
+```
+$ tar -zxvf protobuf-wasm.tgz
+```
+
+> NOTE: The Ubuntu system `emscripten` fails to compile our `person.c` ("Error: Cannot find module 'acorn'"), but if you get the latest `emcc` from [`emsdk`](https://github.com/emscripten-core/emsdk) it works ().
+
+Compile the WASM and run it:
+
+```
+$ emcc -Os -I ./include -s STANDALONE_WASM -s EXPORTED_FUNCTIONS="['_main']" ./lib/libprotobuf-c.a ./lib/libprotobuf.a person.c person.pb-c.c -o person.wasm
+$ wasmtime person.wasm 
+54321 Juergen
+```
+
 ## Manual Build
 
 ### Building Protobuf
