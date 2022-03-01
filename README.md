@@ -1,14 +1,33 @@
-## Compiling the WASM
+## WASM Libraries for Protobuf and Protobuf-c
 
-You need WASM-compiled libraries for `protobuf` and `protobuf-c`. Those require some work.
+If you need WASM-compiled libraries for `protobuf` and `protobuf-c` you can build them here:
+
+```
+$ make
+$ ls -l *.tgz
+-rw-r--r-- 1 vscode vscode 27920925 Mar  1 10:23 protobuf-wasm.tgz
+$ tar -tzvf *.tgz
+drwxr-xr-x vscode/vscode        0 2022-03-01 10:23 include/
+drwxr-xr-x vscode/vscode        0 2022-03-01 10:28 include/protobuf-c/
+-rwxr-xr-x vscode/vscode    33675 2022-03-01 10:23 include/protobuf-c/protobuf-c.h
+drwxr-xr-x vscode/vscode        0 2022-03-01 10:23 lib/
+-rw-r--r-- vscode/vscode   134310 2022-03-01 10:23 lib/libprotobuf-c.a
+-rw-r--r-- vscode/vscode  5408500 2022-03-01 10:23 lib/libprotobuf-lite.a
+-rw-r--r-- vscode/vscode 40387580 2022-03-01 10:23 lib/libprotobuf.a
+-rw-r--r-- vscode/vscode 57765044 2022-03-01 10:23 lib/libprotoc.a
+```
+
+Some of the libraries are rather large, so the release tarball is likely to be 30MB or so.
+
+## Manual Build
 
 ### Building Protobuf
 
 Building `protobuf` for WASM (https://github.com/protocolbuffers/protobuf) using emscripten wasn't too complicated. First let's set up a build area:
 
 ```
-$ mkdir tmp
-$ cd tmp
+$ mkdir build
+$ cd build
 $ git clone https://github.com/protocolbuffers/protobuf
 $ cd protobuf
 ```

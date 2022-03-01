@@ -7,6 +7,6 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends autoconf automake libtool curl make g++ unzip emscripten pkg-config libprotobuf-dev protobuf-compiler libprotobuf-c-dev protobuf-c-compiler bzip2 lbzip2 xz-utils
+    && apt-get -y install --no-install-recommends autoconf automake libtool curl make g++ unzip emscripten pkg-config libprotobuf-dev libprotoc-dev protobuf-compiler libprotobuf-c-dev protobuf-c-compiler bzip2 lbzip2 xz-utils
 
 
