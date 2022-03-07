@@ -1,6 +1,6 @@
 ## WASM Libraries for Protobuf and Protobuf-c
 
-If you need WASM-compiled libraries for `protobuf` and `protobuf-c` you can build them here:
+If you need WASM-compiled libraries for `protobuf` and `protobuf-c` you can download them from the releases in [Github](https://github.com/dsyer/protobuf-wasm/releases). Or you can build them here (use the devcontainer in VSCode or read the config to find out the dependencies you need):
 
 ```
 $ make
